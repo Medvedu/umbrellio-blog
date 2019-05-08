@@ -1,0 +1,77 @@
+source 'https://rubygems.org'
+git_source(:github) {|repo| "https://github.com/#{repo}.git"}
+
+ruby '2.6.2'
+
+#############
+# CORE GEMS #
+#############
+
+gem 'rails',                            '~> 5.2.3'
+gem 'pg',                               '>= 0.18', '< 2.0'
+gem 'puma',                             '~> 3.11'
+
+gem 'rom-rails',                         '~> 1.2.0'
+gem 'rom-sql',                           '~> 2.5.0'
+
+gem 'dry-types',                         '~> 0.12.3'
+gem 'dry-validation',                    '~> 0.11.2'
+gem 'dry-transaction',                   '~> 0.13.0'
+gem 'dry-monads',                        '~> 1.2.0'
+
+##############
+# OTHER GEMS #
+##############
+
+# Sequel_pg overwrites the inner loop of the Sequel postgres adapter
+# row fetching code with a C version. The C version is significantly
+# faster than the pure ruby version that Sequel uses by default.
+gem 'sequel_pg',                        '~> 1.12.0', require: 'sequel'
+
+# Clockwork is a cron replacement.It runs as a lightweight,
+# long - running Ruby process which sits alongside your
+# web processes (Mongrel / Thin) and your worker processes
+# (DJ / Resque / Minion / Stalker) to schedule recurring
+# work at particular times or dates.
+gem 'clockwork',                        '~> 2.0.3'
+
+
+# A fast JSON parser and Object marshaller as a Ruby gem.
+# gem 'oj',                               '~> 3.7.12'
+
+#########################
+#   DEVELOPMENT & TEST  #
+#########################
+
+group :test do
+  # Rspec
+  gem 'rspec-rails', require: false
+end
+
+group :development do
+  # A library for generating fake data such as names, addresses, and
+  # phone numbers
+  gem 'faker',                          '~> 1.9.3'
+
+  gem 'listen',                         '>= 3.0.5', '< 3.2'
+  gem 'rb-readline'
+  gem 'spring'
+  gem 'spring-watcher-listen',          '~> 2.0.0'
+
+  # Code quality
+  gem 'fasterer', require: false
+  gem 'reek', require: false
+  gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
+end
+
+group :development, :test do
+  gem 'byebug'
+  gem 'factory_bot_rails'
+  gem 'database_cleaner'
+  gem 'rom-factory'
+end
+
+SELECT group_id, min(group_id), count(group_id)
+FROM users
+GROUP BY group_id = lag(group_id, 1)

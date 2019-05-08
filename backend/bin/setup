@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+include FileUtils
+
+# path to your application root.
+APP_ROOT = File.expand_path('..', __dir__)
+
+def system!(*args)
+  system(*args) || abort("\n== Command #{args} failed ==")
+end
+
+chdir APP_ROOT do
+  # This script is a starting point to setup application.
+  puts '== Restore secret master key but only when need =='
+  unless File.exist?(File.join('config', 'master.key'))
+    cp File.join('config', 'master.sample.key'), File.join('config', 'master.key')
+  end
+end

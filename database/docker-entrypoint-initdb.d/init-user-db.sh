@@ -1,0 +1,3 @@
+createdb umbrellio_development
+createdb umbrellio_production
+createdb umbrellio_test

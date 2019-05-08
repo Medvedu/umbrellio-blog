@@ -1,0 +1,9 @@
+en:
+  errors:
+    rules:
+      user:
+        unique?: "already taken"
+      post:
+        ipaddr?: "ip address not recognized"
+      rate:
+        post_exist?: "post not exist"
