@@ -9,7 +9,7 @@ module Api
       step :create
 
       def validate(input)
-        validation = RateSchema.(input)
+        validation = RateSchema.call(input)
 
         if validation.success?
           Success(input)

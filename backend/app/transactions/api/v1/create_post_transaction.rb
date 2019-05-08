@@ -9,7 +9,7 @@ module Api
       step :create
 
       def validate(input)
-        validation = PostSchema.(input)
+        validation = PostSchema.call(input)
 
         if validation.success?
           Success(input)

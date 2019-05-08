@@ -5,7 +5,8 @@ module Api
     RateSchema = Dry::Validation.Schema do
       configure do
         config.messages_file = Rails.root.join(
-          'config', 'locales', 'schemas', 'en.yml')
+          'config', 'locales', 'schemas', 'en.yml'
+        )
 
         config.namespace = :rate
 

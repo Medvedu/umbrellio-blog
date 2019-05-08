@@ -4,7 +4,7 @@ module Api
       # POST /api/v1/posts
       def create
         transaction = CreatePostTransaction.new
-        transaction.(post_params.merge(author_ip: request.remote_ip)) do |result|
+        transaction.call(post_params.merge(author_ip: request.remote_ip)) do |result|
           result.success do |post|
             render json: { post: post }, status: :ok
           end

@@ -4,7 +4,7 @@ module Api
       # POST /api/v1/rates
       def create
         transaction = CreateRateTransaction.new
-        transaction.(rate_params) do |result|
+        transaction.call(rate_params) do |result|
           result.success do |rate|
             render json: { rate: rate }, status: :ok
           end

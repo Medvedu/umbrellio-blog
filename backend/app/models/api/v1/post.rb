@@ -17,7 +17,7 @@ module Api
       def viewable
         {
           title: title,
-          body: body,
+          body: body
           # author_ip: author_ip.to_s,
           # author_id: author_id
         }

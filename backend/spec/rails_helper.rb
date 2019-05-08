@@ -1,10 +1,10 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
-ENV['DATABASE_URL'] ||= 'postgres://localhost/ticketee_test'
-require File.expand_path('../../config/environment', __FILE__)
+ENV['DATABASE_URL'] ||= 'postgres://db/umbrellio_test'
+require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -32,21 +32,6 @@ RSpec.configure do |config|
     raise 'Migrations need to be run. Run this command: docker-compose run backend sh -c "rake db: migrate RAILS_ENV = test"'
   end
 
-  config.before(:all) do
-    migrations = db[:schema_migrations].order(Sequel.desc(:filename))
-    migrations_must_be_run! if migrations.empty?
-
-    last_migration_in_db = migrations.first[:filename]
-    last_migration_in_fs = File.basename(Dir[Rails.root + "db/migrate/*"].sort.last)
-    if last_migration_in_fs != last_migration_in_db
-      migrations_must_be_run!
-    end
-  end
-
-  config.before do
-    db[*(db.tables - [:schema_migrations])].truncate
-  end
-
   MyFactory = ROM::Factory.configure do |config|
     config.rom = db
   end
@@ -71,4 +56,3 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
-

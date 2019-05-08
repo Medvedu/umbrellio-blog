@@ -10,7 +10,6 @@ Rails.application.load_tasks
 
 namespace :db do
   task :seed do
-    require Rails.root.join("db", 'seeds.rb')
+    require Rails.root.join('db', 'seeds.rb')
   end
 end
-

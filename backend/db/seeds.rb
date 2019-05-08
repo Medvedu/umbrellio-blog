@@ -1,6 +1,6 @@
 require "rom"
 
-if Rails.env != "development" || Rails.env != "test"
+unless Rails.env == "development" || Rails.env == "test"
   puts "Database can be seed only in development or test environment"
   exit -1
 end

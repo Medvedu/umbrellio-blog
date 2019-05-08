@@ -1,13 +1,13 @@
 require_relative 'boot'
 
-%w(
+%w[
   action_controller/railtie
   active_model/railtie
   action_view/railtie
   action_mailer/railtie
   active_job/railtie
   sprockets/railtie
-).each { |railtie| require railtie }
+].each { |railtie| require railtie }
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -25,8 +25,8 @@ module Umbrellio
 
     # Load into ENV variables before initializers been load
     environment_file = File.join(Rails.root, 'config', '.env.' + Rails.env)
-    if File.exists?(environment_file)
-      YAML.load(File.open(environment_file)).each do |key, value|
+    if File.exist?(environment_file)
+      YAML.safe_load(File.open(environment_file)).each do |key, value|
         ENV[key.to_s] = value
       end
     end

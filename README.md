@@ -2,9 +2,12 @@
 
 ## Развёртывание приложения
 
+### Подготовка
+
 Для развёртывания в эмуляторе терминала введите:
 
 ```bash
+  $ git clone https://github.com/Medvedu/umbrellio-blog
   $ cd $PROJECT_DIR
   $ docker-compose build
   $ docker-compose run backend sh -c "rake db:migrate"
@@ -23,11 +26,11 @@
 _Параметры посева (см. ```db/seeds.rb```)_
 
 ```ruby
-USERS_COUNT = 400
-POSTS_COUNT = 600_000
-RATES_COUNT = 25_000
-IPS_COUNT = 75
-POSTS_WITH_RATES_COUNT = 15_000
+  USERS_COUNT = 400
+  POSTS_COUNT = 600_000
+  RATES_COUNT = 25_000
+  IPS_COUNT = 75
+  POSTS_WITH_RATES_COUNT = 15_000
 ```
 
 ### Запуск
@@ -56,7 +59,7 @@ POSTS_WITH_RATES_COUNT = 15_000
 
 _Вернёт:_ **```{"post":{"title":"my_title","body":"my_body"}}```** **10-12 ms**
 
-Передавать все аттрибуты поста посчитал некорректным, т.к. с точки зрения безопасности приложения хорошо чтобы пользователь не видел свой id. Тем не менее, если необходимо, отображение аттрибутов настраиваются в ```Api::V1::Post#viewable```. 
+Передавать все аттрибуты поста посчитал некорректным, т.к. с точки зрения безопасности приложения хорошо чтобы пользователь не видел свой id. Тем не менее, отображение аттрибутов настраивается в ```Api::V1::Post#viewable```. 
 
 ### 1.2 Создание поста (с ошибками валидаций)
 
@@ -111,7 +114,7 @@ _Вернёт_:  **```{"rate":4.5}```** **20 ms**
   $ curl -X GET http://localhost:3001/api/v1/posts/top_by_avg_rate
 ```
 
-Вернёт: Топ **555** постов по рейтингу. **64 ms** 
+Вернёт: Топ **555** постов по рейтингу. **88 ms** 
 
 Запрос достаточно быстрый, но для больших ```N```, возможно, потребуется оптимизировать скорость генерации JSON-объекта (например, добавив гем [oj](https://github.com/ohler55/oj)).
 
@@ -123,7 +126,7 @@ _Вернёт_:  **```{"rate":4.5}```** **20 ms**
 
 Вернёт: json на ~300 кбайт. **21ms** 
 
-* Для ускорения запроса использовал [материализованные представления](https://postgrespro.ru/docs/postgrespro/11/rules-materializedviews). Представление обновляется асинхронно при помощи гема clockwork (см. ```config/clockwork```) раз в 45 секунд. Дальнейшим шагом по снижению api latency может стать перенос джобы обновляющей представление в отдельный докер-контейнер, на выделенный хостинг. 
+* Для ускорения запроса использовал [материализованные представления](https://postgrespro.ru/docs/postgrespro/11/rules-materializedviews). Представление обновляется асинхронно при помощи гема clockwork (см. ```config/clockwork```) раз в 45 секунд. 
 
 * Для быстрого рендера JSON передаю массив логинов в строке.
 
@@ -132,7 +135,8 @@ _Вернёт_:  **```{"rate":4.5}```** **20 ms**
 ### Перед запуском тестов выполните
 
 ```bash
-  $ docker-compose run backend sh -c "rake db:migrate RAILS_ENV=test"
+  $ docker-compose run backend sh -c "RAILS_ENV=test rake db:migrate"
+  $ docker-compose run backend sh -c "RAILS_ENV=test rake db:seed"
 ```
 
 ### Запуск
